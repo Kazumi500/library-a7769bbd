@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700&amp;family=Work+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="font-body text-on-surface min-h-screen">
+<main class="pt-5 pb-32 px-8">
+    <div class="max-w-6xl mx-auto space-y-10">
+        <section class="flex items-center justify-between gap-6 bg-surface-container-lowest p-6 rounded-2xl border-outline-variant/30 shadow-sm">
+            <div class="space-y-1">
+                <h2 class="font-headline text-headline-lg text-primary">My Collection</h2>
+                <p class="font-body-md text-on-surface-variant">Manage your library and tracked titles.</p>
+            </div>
+            <button id="add_Books" class="h-14 px-10 bg-primary text-on-primary font-label text-label-md rounded-full flex items-center gap-2 hover:bg-primary/90 transition-all active:scale-95 shadow-lg"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg> add book</button>
+        </section>
+        <section class="space-y-6">
+            <div class="grid grid-cols-4 gap-8" id="books-grid">
+            </div>
+        </section>
+    </div>
+</main>
+
+<!-- New Book Modal -->
+<div class="fixed inset-0 z-50 hidden items-center justify-center bg-inverse-surface/40 backdrop-blur-sm p-4" id="modal-overlay">
+    <div class="bg-surface-container-lowest w-full max-w-md rounded-3xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
+        <div class="px-8 pt-8 pb-4">
+            <h3 class="font-headline text-headline-lg text-primary mb-2">Add New book</h3>
+            <p class="font-body-md text-on-surface-variant">Enter the details of the title you want to track.</p>
+        </div>
+        <form class="p-8 pt-0 space-y-6" id="add-book-form">
+            <div class="space-y-4">
+                <div>
+                    <label for="book-title" class="block font-label text-label-md text-on-surface-variant mb-2">Title</label>
+                    <input class="w-full px-4 py-3 rounded-xl border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary outline-none bg-surface-bright font-body-md" id="book-title" placeholder="e.g. The Great Gatsby" required="" type="text"/>
+                </div>
+                <div>
+                    <label class="block font-label text-label-md text-on-surface-variant mb-2" for="book-author">Author</label>
+                    <input class="w-full px-4 py-3 rounded-xl border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary outline-none bg-surface-bright font-body-md" id="book-author" placeholder="e.g. F. Scott Fitzgerald" required="" type="text"/>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-label text-label-md text-on-surface-variant mb-2" for="book-pages">Pages</label>
+                        <input class="w-full px-4 py-3 rounded-xl border border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary outline-none bg-surface-bright font-body-md" id="book-pages" min="1" placeholder="0" required="" type="number"/>
+                    </div>
+                    <div class="flex flex-col justify-end">
+                        <label class="flex items-center gap-3 cursor-pointer select-none pb-3">
+                        <div class="relative inline-flex items-center">
+                            <input class="sr-only peer" id="book-read" type="checkbox"/>
+                            <div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                        </div>
+                        <span class="font-label-md text-label-md text-on-surface">Sudah Di Baca?</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="flex gap-3 pt-4">
+                <button class="flex-1 py-3 px-6 rounded-full border border-outline font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors" onclick="closeModal()" type="button">Cancel</button>
+                <button class="flex-1 py-3 px-6 rounded-full bg-primary text-on-primary font-label-md text-label-md hover:shadow-lg transition-all active:scale-95" type="submit">Add Book</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
+
