@@ -70,6 +70,12 @@ function closeModal() {
   modalOverlay.classList.add('hidden');
   modalOverlay.classList.remove('flex');
   addBookForm.reset();
+  addBookForm.querySelectorAll('.field-error').forEach(el => el.remove());
+  addBookForm.querySelectorAll('input:not([type=checkbox])').forEach(input => {
+    input.classList.remove('border-error');
+    input.removeAttribute('aria-invalid');
+    input.removeAttribute('aria-describedby');
+  });
 }
 
 modalOverlay.addEventListener('click', (e) => {
@@ -80,6 +86,9 @@ modalOverlay.addEventListener('click', (e) => {
 
 addBookForm.addEventListener('submit', (event) => {
   event.preventDefault();
+  if (document.activeElement?.blur) document.activeElement.blur(); // ponytail: defocus so Enter-submit on invalid input still shows errors
+  const inputs = [...addBookForm.querySelectorAll('input:not([type=checkbox])')];
+  if (!inputs.every(validateField)) return;
 
   const title = document.getElementById('book-title').value;
   const author = document.getElementById('book-author').value;
@@ -88,6 +97,34 @@ addBookForm.addEventListener('submit', (event) => {
 
   addBookToLibrary(title, author, pages, read);
   closeModal();
+});
+
+// ponytail: blur-only validation per assignment; native validity API + aria-describedby wiring
+function validateField(input) {
+  if (input.type === 'checkbox') return true;
+  const valid = input.checkValidity();
+  const showError = !valid && document.activeElement !== input;
+  input.classList.toggle('border-error', showError);
+  input.setAttribute('aria-invalid', String(!valid));
+  let err = input.parentElement.querySelector('.field-error');
+  if (showError) {
+    if (!err) {
+      err = document.createElement('p');
+      err.id = `${input.id}-error`;
+      err.className = 'field-error text-error text-label-sm mt-1 font-label';
+      input.parentElement.appendChild(err);
+      input.setAttribute('aria-describedby', err.id);
+    }
+    err.textContent = input.validationMessage;
+  } else if (err) {
+    err.remove();
+    input.removeAttribute('aria-describedby');
+  }
+  return valid;
+}
+
+addBookForm.querySelectorAll('input:not([type=checkbox])').forEach(input => {
+  input.addEventListener('blur', () => validateField(input));
 });
 
 
